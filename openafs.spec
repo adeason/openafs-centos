@@ -548,6 +548,12 @@ if [ $1 = 1 ] ; then
   chkconfig --add openafs-server
 fi
 %{initdir}/openafs-server condrestart
+%else
+if [ $1 -eq 1 ] ; then
+  # Initial installation
+  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
+%endif
 
 %post authlibs
 /sbin/ldconfig
@@ -595,9 +601,6 @@ fi
 %postun server
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %endif
-
-%endif
-
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %triggerun -- openafs-client < 1.6.0-1
