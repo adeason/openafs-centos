@@ -279,7 +279,6 @@ CFLAGS="$RPM_OPT_FLAGS"; export CFLAGS
        --disable-kernel-module \
        --enable-debug \
        --with-krb5 \
-       --enable-bitmap-later \
        --enable-supergroups \
        || exit 1
 make
