@@ -268,9 +268,12 @@ esac
 DESTDIR=$RPM_BUILD_ROOT; export DESTDIR
 CFLAGS="$RPM_OPT_FLAGS"; export CFLAGS
 
-KRB5_CONFIG="%{krb5config}"
-export KRB5_CONFIG
 %configure \
+       afsconfdir="%{_sysconfdir}/openafs/server" \
+       viceetcdir="%{_sysconfdir}/openafs" \
+       afslogsdir="%{_var}/log/openafs" \
+       afslocaldir="%{_var}/lib/openafs/local" \
+       --localstatedir="%{_var}/lib" \
        --with-afs-sysname=${sysname} \
        --disable-strip-binaries \
        --disable-kernel-module \
@@ -424,15 +427,15 @@ done
 ## Client
 mkdir $RPM_BUILD_ROOT%{_prefix}/vice
 ln -s %{_sysconfdir}/openafs $RPM_BUILD_ROOT%{_prefix}/vice/etc
-ln -s %{_localstatedir}/cache/openafs $RPM_BUILD_ROOT%{_prefix}/vice/cache
+ln -s %{_var}/cache/openafs $RPM_BUILD_ROOT%{_prefix}/vice/cache
 
 ## Server
 mkdir $RPM_BUILD_ROOT%{_prefix}/afs
 ln -s %{_sysconfdir}/openafs/server $RPM_BUILD_ROOT%{_prefix}/afs/etc
-ln -s %{_localstatedir}/openafs $RPM_BUILD_ROOT%{_prefix}/afs/local
-ln -s %{_localstatedir}/openafs/db $RPM_BUILD_ROOT%{_prefix}/afs/db
-ln -s %{_localstatedir}/openafs/logs $RPM_BUILD_ROOT%{_prefix}/afs/logs
-ln -s %{_localstatedir}/openafs/backup $RPM_BUILD_ROOT%{_prefix}/afs/backup
+ln -s %{_var}/log/openafs $RPM_BUILD_ROOT%{_prefix}/afs/logs
+ln -s %{_var}/lib/openafs/backup $RPM_BUILD_ROOT%{_prefix}/afs/backup
+ln -s %{_var}/lib/openafs/db $RPM_BUILD_ROOT%{_prefix}/afs/db
+ln -s %{_var}/lib/openafs/local $RPM_BUILD_ROOT%{_prefix}/afs/local
 mkdir $RPM_BUILD_ROOT%{_prefix}/afs/bin
 ### find all the executables in /usr/sbin
 for f in `find $RPM_BUILD_ROOT%{_prefix}/sbin -executable`; do
@@ -484,11 +487,12 @@ install -p -m 644 src/packaging/RedHat/openafs-cacheinfo $RPM_BUILD_ROOT%{_sysco
 # Populate /etc/openafs/server
 ## Create empty files to be configured later
 mkdir $RPM_BUILD_ROOT%{_sysconfdir}/openafs/server
-touch $RPM_BUILD_ROOT%{_sysconfdir}/openafs/server/CellServDB
-touch $RPM_BUILD_ROOT%{_sysconfdir}/openafs/server/ThisCell
-touch $RPM_BUILD_ROOT%{_sysconfdir}/openafs/server/krb.conf
-touch $RPM_BUILD_ROOT%{_sysconfdir}/openafs/server/UserList
 
+# Precreate some server dirs
+mkdir -p $RPM_BUILD_ROOT%{_var}/log/openafs
+mkdir -p $RPM_BUILD_ROOT%{_var}/lib/openafs/backup
+mkdir -p $RPM_BUILD_ROOT%{_var}/lib/openafs/db
+mkdir -p $RPM_BUILD_ROOT%{_var}/lib/openafs/local
 
 # Fix systemd service unit which has transarc paths
 ## Fix location of environment file
@@ -744,13 +748,10 @@ fi
 %files server
 %defattr(-,root,root)
 %dir %{_sysconfdir}/openafs/server
-%config(noreplace) %{_sysconfdir}/openafs/server/CellServDB
-%config(noreplace) %{_sysconfdir}/openafs/server/ThisCell
-%config(noreplace) %{_sysconfdir}/openafs/server/UserList
-%config(noreplace) %{_sysconfdir}/openafs/server/krb.conf
-%ghost %config(noreplace) %{_sysconfdir}/openafs/BosConfig
-%ghost %config(noreplace) %{_sysconfdir}/openafs/server/rxkad.keytab
-%ghost %config(noreplace) %{_sysconfdir}/sysconfig/openafs-server
+%dir %{_var}/log/openafs
+%dir %attr(700, root, root) %{_var}/lib/openafs/backup
+%dir %attr(700, root, root) %{_var}/lib/openafs/db
+%dir %attr(700, root, root) %{_var}/lib/openafs/local
 %{_sbindir}/bosserver
 %{_sbindir}/bos_util
 %{_libexecdir}/openafs/buserver
