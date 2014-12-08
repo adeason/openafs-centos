@@ -54,6 +54,16 @@ Source10: http://www.openafs.org/dl/openafs/%{afsvers}/RELNOTES-%{afsvers}
 Source11: http://www.openafs.org/dl/openafs/%{afsvers}/ChangeLog
 Source20: http://dl.central.org/dl/cellservdb/CellServDB.2014-11-17
 
+Source30: openafs.sysconfig
+Source31: openafs.cacheinfo
+
+Source40: openafs-client.init
+Source41: openafs-client.service
+Source42: openafs-client.modules
+
+Source50: openafs-server.init
+Source51: openafs-server.service
+
 %description
 The AFS distributed filesystem.  AFS is a distributed filesystem
 allowing cross-platform sharing of files among multiple computers.
@@ -325,17 +335,17 @@ mkdir -p $RPM_BUILD_ROOT/etc/openafs
 mkdir -p $RPM_BUILD_ROOT/etc/sysconfig
 mkdir -p $RPM_BUILD_ROOT%{initdir}
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/cache/openafs
-install -m 755 src/packaging/RedHat/openafs.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/openafs
+install -m 755 %{SOURCE30} $RPM_BUILD_ROOT/etc/sysconfig/openafs
 
 %if %{use_systemd}
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/modules
-install -m 755 src/packaging/RedHat/openafs-client.service $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
-install -m 755 src/packaging/RedHat/openafs-client.modules $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/modules/openafs-client.modules
-install -m 755 src/packaging/RedHat/openafs-server.service $RPM_BUILD_ROOT%{_unitdir}/openafs-server.service
+install -m 755 %{SOURCE41} $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
+install -m 755 %{SOURCE42} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/modules/openafs-client.modules
+install -m 755 %{SOURCE51} $RPM_BUILD_ROOT%{_unitdir}/openafs-server.service
 %else
-install -m 755 src/packaging/RedHat/openafs-client.init $RPM_BUILD_ROOT%{initdir}/openafs-client
-install -m 755 src/packaging/RedHat/openafs-server.init $RPM_BUILD_ROOT%{initdir}/openafs-server
+install -m 755 %{SOURCE40} $RPM_BUILD_ROOT%{initdir}/openafs-client
+install -m 755 %{SOURCE50} $RPM_BUILD_ROOT%{initdir}/openafs-server
 %endif
 
 
@@ -490,10 +500,10 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libjuafs.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libuafs.a
 
 # Populate /etc/openafs
-install -p -m 644 src/packaging/RedHat/openafs-ThisCell $RPM_BUILD_ROOT%{_sysconfdir}/openafs/ThisCell
+echo openafs.org > $RPM_BUILD_ROOT%{_sysconfdir}/openafs/ThisCell
 install -p -m 644 %{SOURCE20} $RPM_BUILD_ROOT%{_sysconfdir}/openafs/CellServDB.dist
 touch $RPM_BUILD_ROOT%{_sysconfdir}/openafs/CellServDB.local
-install -p -m 644 src/packaging/RedHat/openafs-cacheinfo $RPM_BUILD_ROOT%{_sysconfdir}/openafs/cacheinfo
+install -p -m 644 %{SOURCE31} $RPM_BUILD_ROOT%{_sysconfdir}/openafs/cacheinfo
 
 # Populate /etc/openafs/server
 ## Create empty files to be configured later
@@ -504,18 +514,6 @@ mkdir -p $RPM_BUILD_ROOT%{_var}/log/openafs
 mkdir -p $RPM_BUILD_ROOT%{_var}/lib/openafs/backup
 mkdir -p $RPM_BUILD_ROOT%{_var}/lib/openafs/db
 mkdir -p $RPM_BUILD_ROOT%{_var}/lib/openafs/local
-
-# Fix systemd service unit which has transarc paths
-## Fix location of environment file
-sed -i 's!EnvironmentFile=-/etc/sysconfig/openafs!EnvironmentFile=-%{_sysconfdir}/sysconfig/openafs-server!g' $RPM_BUILD_ROOT%{_unitdir}/openafs-server.service
-## Fix location of CellServDB
-sed -i 's!/usr/vice/etc/CellServDB!%{_sysconfdir}/openafs/CellServDB!g' $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
-## Fix the location of afsd
-sed -i 's!/usr/vice/etc/afsd!%{_sbindir}/afsd!' $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
-## Fix location of bosserver
-sed -i 's!/usr/afs/bin/bosserver!%{_sbindir}/bosserver!' $RPM_BUILD_ROOT%{_unitdir}/openafs-server.service
-## Fix cacheinfo to point at /var/cache/openafs
-sed -i 's!/usr/vice/cache!%{_localstatedir}/cache/openafs!' $RPM_BUILD_ROOT%{_sysconfdir}/openafs/cacheinfo
 
 ##############################################################################
 ###
