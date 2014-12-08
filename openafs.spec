@@ -31,7 +31,7 @@ Release: %{pkgrel}%{?dist}
 License: IBM Public License
 URL: http://www.openafs.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
-Packager: OpenAFS Gatekeepers <openafs-gatekeepers@openafs.org>
+Packager: CentOS Storage SIG <centos-devel@centos.org>
 Group: Networking/Filesystems
 BuildRequires: %{?kdepend:%{kdepend}, } pam-devel, ncurses-devel, flex, bison
 %if %{use_systemd}
