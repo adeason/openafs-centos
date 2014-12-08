@@ -52,7 +52,7 @@ Source1: http://www.openafs.org/dl/openafs/%{afsvers}/openafs-%{afsvers}-doc.tar
 
 Source10: http://www.openafs.org/dl/openafs/%{afsvers}/RELNOTES-%{afsvers}
 Source11: http://www.openafs.org/dl/openafs/%{afsvers}/ChangeLog
-Source20: http://dl.central.org/dl/cellservdb/CellServDB.2013-01-28
+Source20: http://dl.central.org/dl/cellservdb/CellServDB.2014-11-17
 
 %description
 The AFS distributed filesystem.  AFS is a distributed filesystem
