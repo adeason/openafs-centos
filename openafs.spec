@@ -278,6 +278,8 @@ CFLAGS="$RPM_OPT_FLAGS"; export CFLAGS
        --disable-strip-binaries \
        --disable-kernel-module \
        --enable-debug \
+       --enable-debug-lwp \
+       --enable-debug-pam \
        --with-krb5 \
        --enable-supergroups \
        || exit 1
