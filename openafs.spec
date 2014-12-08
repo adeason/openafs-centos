@@ -282,6 +282,7 @@ CFLAGS="$RPM_OPT_FLAGS"; export CFLAGS
        --enable-debug-pam \
        --with-krb5 \
        --enable-supergroups \
+       --disable-fuse-client \
        || exit 1
 make
 #make -j16
