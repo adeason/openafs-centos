@@ -13,6 +13,14 @@
 # Define the location of the PAM security module directory
 %define pamdir /%{_lib}/security
 
+# On Fedora 15 and above, and EL7 and above, use systemd. Otherwise, we use
+# our traditional sysv init scripts.
+%if 0%{?fedora} >= 15 || 0%{?rhel >= 7}
+%define use_systemd 1
+%else
+%define use_systemd 0
+%endif
+
 # Make sure RPM doesn't complain about installed but non-packaged files.
 #define __check_files  %{nil}
 
@@ -26,7 +34,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Packager: OpenAFS Gatekeepers <openafs-gatekeepers@openafs.org>
 Group: Networking/Filesystems
 BuildRequires: %{?kdepend:%{kdepend}, } pam-devel, ncurses-devel, flex, bison
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+%if %{use_systemd}
 BuildRequires: systemd-units
 %endif
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 6
@@ -63,7 +71,7 @@ OpenAFS packages but are not necessarily tied to a client or server.
 ##############################################################################
 %package client
 Requires: binutils, openafs = %{version}
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+%if %{use_systemd}
 Requires: systemd-units
 Requires(post): systemd-units, systemd-sysv
 Requires(preun): systemd-units
@@ -87,7 +95,7 @@ AFS.
 Requires: openafs = %{version}
 Summary: OpenAFS Filesystem Server
 Group: Networking/Filesystems
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+%if %{use_systemd}
 Requires: systemd-units
 Requires(post): systemd-units, systemd-sysv
 Requires(preun): systemd-units
@@ -318,15 +326,16 @@ mkdir -p $RPM_BUILD_ROOT/etc/sysconfig
 mkdir -p $RPM_BUILD_ROOT%{initdir}
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/cache/openafs
 install -m 755 src/packaging/RedHat/openafs.sysconfig $RPM_BUILD_ROOT/etc/sysconfig/openafs
-%if 0%{?fedora} < 15 && 0%{?rhel} < 7
-install -m 755 src/packaging/RedHat/openafs-client.init $RPM_BUILD_ROOT%{initdir}/openafs-client
-install -m 755 src/packaging/RedHat/openafs-server.init $RPM_BUILD_ROOT%{initdir}/openafs-server
-%else
+
+%if %{use_systemd}
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/modules
 install -m 755 src/packaging/RedHat/openafs-client.service $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
 install -m 755 src/packaging/RedHat/openafs-client.modules $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/modules/openafs-client.modules
 install -m 755 src/packaging/RedHat/openafs-server.service $RPM_BUILD_ROOT%{_unitdir}/openafs-server.service
+%else
+install -m 755 src/packaging/RedHat/openafs-client.init $RPM_BUILD_ROOT%{initdir}/openafs-client
+install -m 755 src/packaging/RedHat/openafs-server.init $RPM_BUILD_ROOT%{initdir}/openafs-server
 %endif
 
 
@@ -524,13 +533,13 @@ rm -f openafs-file-list
 ###
 ##############################################################################
 %post client
-%if 0%{?fedora} < 15 && 0%{?rhel} < 7
-chkconfig --add openafs-client
-%else
+%if %{use_systemd}
 if [ $1 -eq 1 ] ; then 
     # Initial installation 
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
+%else
+chkconfig --add openafs-client
 %endif
 if [ ! -d /afs ]; then
 	mkdir /afs
@@ -548,17 +557,17 @@ fi
 
 
 %post server
-#on an upgrade, don't enable if we were disabled
-%if 0%{?fedora} < 15 && 0%{?rhel} < 7
-if [ $1 = 1 ] ; then
-  chkconfig --add openafs-server
-fi
-%{initdir}/openafs-server condrestart
-%else
+%if %{use_systemd}
 if [ $1 -eq 1 ] ; then
   # Initial installation
   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
+%else
+if [ $1 = 1 ] ; then
+  # Initial installation
+  chkconfig --add openafs-server
+fi
+%{initdir}/openafs-server condrestart
 %endif
 
 %post authlibs
@@ -574,33 +583,33 @@ if [ $1 = 0 ] ; then
 fi
 
 %preun client
-%if 0%{?fedora} < 15 && 0%{?rhel} < 7
-if [ $1 = 0 ] ; then
-        %{initdir}/openafs-client stop
-        chkconfig --del openafs-client
-fi
-%else
+%if %{use_systemd}
 if [ $1 -eq 0 ] ; then
     	# Package removal, not upgrade
     	/bin/systemctl --no-reload disable openafs-client.service > /dev/null 2>&1 || :
     	/bin/systemctl stop openafs-client.service > /dev/null 2>&1 || :
 fi
+%else
+if [ $1 = 0 ] ; then
+        %{initdir}/openafs-client stop
+        chkconfig --del openafs-client
+fi
 %endif
 
 %preun server
-%if 0%{?fedora} < 15 && 0%{?rhel} < 7
-if [ $1 = 0 ] ; then
-        %{initdir}/openafs-server stop
-        chkconfig --del openafs-server
-fi
-%else
+%if %{use_systemd}
 if [ $1 -eq 0 ] ; then
     	/bin/systemctl --no-reload disable openafs-server.service > /dev/null 2>&1 || :
     	/bin/systemctl stop openafs-server.service > /dev/null 2>&1 || :
 fi
+%else
+if [ $1 = 0 ] ; then
+        %{initdir}/openafs-server stop
+        chkconfig --del openafs-server
+fi
 %endif
 
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+%if %{use_systemd}
 %postun client
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 
@@ -608,7 +617,7 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %endif
 
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+%if %{use_systemd}
 %triggerun -- openafs-client < 1.6.0-1
 # Save the current service runlevel info
 # User must manually run systemd-sysv-convert --apply httpd
@@ -730,11 +739,11 @@ fi
 %{pamdir}/pam_afs.krb.so
 %{pamdir}/pam_afs.so.1
 %{pamdir}/pam_afs.so
-%if 0%{?fedora} < 15 && 0%{?rhel} < 7
-%{initdir}/openafs-client
-%else
+%if %{use_systemd}
 %{_unitdir}/openafs-client.service
 %{_sysconfdir}/sysconfig/modules/openafs-client.modules
+%else
+%{initdir}/openafs-client
 %endif
 %{_mandir}/man1/cmdebug.*
 %{_mandir}/man1/up.*
@@ -783,10 +792,10 @@ fi
 %{_sbindir}/vldb_convert
 %{_sbindir}/voldump
 %{_sbindir}/volscan
-%if 0%{?fedora} < 15 && 0%{?rhel} < 7
-%{initdir}/openafs-server
-%else
+%if %{use_systemd}
 %{_unitdir}/openafs-server.service
+%else
+%{initdir}/openafs-server
 %endif
 %{_mandir}/man5/AuthLog.*
 %{_mandir}/man5/BackupLog.*
