@@ -1,0 +1,28 @@
+%defattr(-,root,root)
+%dir /afs
+%dir %{_localstatedir}/cache/openafs
+%{_sysconfdir}/openafs/CellServDB.dist
+%ghost %{_sysconfdir}/openafs/CellServDB
+%config(noreplace) %{_sysconfdir}/openafs/CellServDB.local
+%config(noreplace) %{_sysconfdir}/openafs/ThisCell
+%config(noreplace) %{_sysconfdir}/openafs/cacheinfo
+%config(noreplace) %{_sysconfdir}/sysconfig/openafs
+%{_bindir}/afsio
+%{_bindir}/cmdebug
+%{_bindir}/up
+%{_sbindir}/afsd
+%{_prefix}/share/openafs/C/afszcm.cat
+%{pamdir}/pam_afs.krb.so.1
+%{pamdir}/pam_afs.krb.so
+%{pamdir}/pam_afs.so.1
+%{pamdir}/pam_afs.so
+%{_mandir}/man1/cmdebug.*
+%{_mandir}/man1/up.*
+%{_mandir}/man5/CellAlias.*
+%{_mandir}/man5/afs.5.gz
+%{_mandir}/man5/afs_cache.5.gz
+%{_mandir}/man5/afs_volume_header.5.gz
+%{_mandir}/man5/afszcm.cat.5.gz
+%{_mandir}/man5/cacheinfo.*
+%{_mandir}/man8/afsd.*
+%{_mandir}/man8/vsys.*

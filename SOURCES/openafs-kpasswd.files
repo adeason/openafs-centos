@@ -1,0 +1,5 @@
+%defattr(-,root,root)
+%{_bindir}/kpasswd
+%{_sbindir}/kpwvalid
+%{_mandir}/man1/kpasswd.1.gz
+%{_mandir}/man8/kpwvalid.8.gz

@@ -1,0 +1,11 @@
+%defattr(-,root,root)
+%{_includedir}/kopenafs.h
+%{_libdir}/libafsauthent.a
+%{_libdir}/libafscp.a
+%{_libdir}/libafsrpc.a
+%{_libdir}/libafsauthent_pic.a
+%{_libdir}/libafsrpc_pic.a
+%{_libdir}/libkopenafs.a
+%{_libdir}/libafsauthent.so
+%{_libdir}/libafsrpc.so
+%{_libdir}/libkopenafs.so

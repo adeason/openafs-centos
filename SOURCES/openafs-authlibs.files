@@ -1,0 +1,4 @@
+%defattr(-,root,root)
+%{_libdir}/libafsauthent.so.*
+%{_libdir}/libafsrpc.so.*
+%{_libdir}/libkopenafs.so.*

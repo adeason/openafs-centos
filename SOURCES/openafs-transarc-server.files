@@ -1,0 +1,9 @@
+%defattr(-,root,root)
+%dir %{_prefix}/afs
+%dir %{_prefix}/afs/bin
+%{_prefix}/afs/bin/*
+%{_prefix}/afs/backup
+%{_prefix}/afs/etc
+%{_prefix}/afs/db
+%{_prefix}/afs/local
+%{_prefix}/afs/logs

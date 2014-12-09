@@ -1,0 +1,5 @@
+%defattr(-,root,root)
+%{_bindir}/aklog
+%{_bindir}/klog.krb5
+%{_mandir}/man1/aklog.*
+%{_mandir}/man1/klog.krb5.1.gz
