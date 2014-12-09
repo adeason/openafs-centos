@@ -3,6 +3,13 @@
 # the utilities, and parts of the client). This is not used for building the
 # client kernel module.
 
+# Build options. Run rpmbuild with:
+# --without checking
+#     This turns off --enable-checking. By default, we build with
+#     --enable-checking turned on, which effective builds with -Werror turned
+#     on. You should not use this unless the build fails due to a warning and
+#     you _really_ need it to build and don't care if everything breaks.
+
 # These two macros are for what version of OpenAFS we're building. afsvers is
 # for what openafs.org thinks the version number is, and pkgvers is for what
 # RPM thinks the verson is. Usually these are the same, but for prereleases
@@ -424,6 +431,8 @@ programs.
        --enable-debug \
        --enable-debug-lwp \
        --enable-debug-pam \
+       --enable-warnings \
+       %{?!_without_checking:--enable-checking} \
        --with-krb5 \
        --enable-supergroups \
        --disable-fuse-client \
