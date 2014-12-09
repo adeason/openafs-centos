@@ -340,7 +340,6 @@ krb4 lookalike services.
 Summary: OpenAFS client compatibility symlinks
 Group: Applications/System
 Requires: openafs = %{version}, openafs-client = %{version}
-Obsoletes: openafs-client-compat
 
 %description compat
 The AFS distributed filesystem.  AFS is a distributed filesystem
