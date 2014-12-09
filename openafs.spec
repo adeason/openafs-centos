@@ -36,7 +36,7 @@ Release:  %{pkgrel}%{?dist}
 License:  IBM Public License
 URL:      http://www.openafs.org/
 Packager: CentOS Storage SIG <centos-devel@centos.org>
-Group:    Networking/Filesystems
+Group:    Applications/System
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildRequires: %{?kdepend:%{kdepend}, } pam-devel, ncurses-devel, flex, bison
@@ -98,7 +98,7 @@ OpenAFS packages but are not necessarily tied to a client or server.
 
 %package client
 Summary: OpenAFS Filesystem Client
-Group: Networking/Filesystem
+Group: System Environment/Daemons
 
 Requires: binutils, openafs = %{version}
 Requires: %{name}-kmod >= %{version}
@@ -166,7 +166,7 @@ fi
 
 %package server
 Summary: OpenAFS Filesystem Server
-Group: Networking/Filesystems
+Group: System Environment/Daemons
 
 Requires: openafs = %{version}
 %if %{use_systemd}
@@ -223,7 +223,7 @@ fi
 
 %package authlibs
 Summary: OpenAFS authentication shared libraries
-Group: Networking/Filesystems
+Group: Applications/System
 
 %description authlibs
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -247,7 +247,7 @@ authentication may link against them.
 
 %package authlibs-devel
 Summary: OpenAFS shared library development
-Group: Development/Filesystems
+Group: Development/Libraries
 
 Requires: openafs-authlibs = %{version}-%{release}
 Requires: openafs-devel = %{version}-%{release}
@@ -267,7 +267,7 @@ libraries.
 
 %package devel
 Summary: OpenAFS Development Libraries and Headers
-Group: Development/Filesystems
+Group: Development/Libraries
 Requires: openafs = %{version}-%{release}
 
 %description devel
@@ -285,7 +285,7 @@ shared libraries.
 
 %package docs
 Summary: OpenAFS user and administrator documentation
-Group: Networking/Filesystems
+Group: Documentation
 Requires: openafs = %{version}-%{release}
 
 %description docs
@@ -302,7 +302,7 @@ administrators.
 
 %package kpasswd
 Summary: OpenAFS KA kpasswd support
-Group: Networking/Filesystems
+Group: Applications/System
 Requires: openafs
 
 %description kpasswd
@@ -319,7 +319,7 @@ you are using KAserver instead of Krb5.
 
 %package krb5
 Summary: OpenAFS programs to use with krb5
-Group: Networking/Filesystems
+Group: Applications/System
 Requires: openafs = %{version}
 BuildRequires: krb5-devel
 
@@ -338,7 +338,7 @@ krb4 lookalike services.
 
 %package compat
 Summary: OpenAFS client compatibility symlinks
-Group: Networking/Filesystems
+Group: Applications/System
 Requires: openafs = %{version}, openafs-client = %{version}
 Obsoletes: openafs-client-compat
 
@@ -358,7 +358,7 @@ programs.
 
 %package transarc-client
 Summary: OpenAFS client compatibility symlinks
-Group: Networking/Filesystems
+Group: System Environment/Daemons
 Requires: openafs = %{version}, openafs-client = %{version}
 
 %description transarc-client
@@ -377,7 +377,7 @@ programs.
 
 %package transarc-server
 Summary: OpenAFS client compatibility symlinks
-Group: Networking/Filesystems
+Group: System Environment/Daemons
 Requires: openafs = %{version}, openafs-server = %{version}
 
 %description transarc-server
