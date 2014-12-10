@@ -2,7 +2,7 @@
 %dir /afs
 %dir %{_localstatedir}/cache/openafs
 %{_sysconfdir}/openafs/CellServDB.dist
-%ghost %{_sysconfdir}/openafs/CellServDB
+%ghost %attr(644,root,root) %{_sysconfdir}/openafs/CellServDB
 %config(noreplace) %{_sysconfdir}/openafs/CellServDB.local
 %config(noreplace) %{_sysconfdir}/openafs/ThisCell
 %config(noreplace) %{_sysconfdir}/openafs/cacheinfo
