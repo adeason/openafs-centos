@@ -45,7 +45,7 @@ Summary:  OpenAFS distributed filesystem
 Name:     openafs
 Version:  %{pkgvers}
 Release:  %{pkgrel}%{?dist}
-License:  IBM Public License
+License:  IBM
 URL:      http://www.openafs.org/
 Packager: CentOS Storage SIG <centos-devel@centos.org>
 Group:    Applications/System
