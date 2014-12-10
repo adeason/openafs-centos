@@ -41,7 +41,7 @@
     %define use_systemd 0
 %endif
 
-Summary:  OpenAFS distributed filesystem
+Summary:  AFS distributed filesystem common files
 Name:     openafs
 Version:  %{pkgvers}
 Release:  %{pkgrel}%{?dist}
@@ -109,7 +109,7 @@ OpenAFS packages but are not necessarily tied to a client or server.
 
 
 %package client
-Summary: OpenAFS Filesystem Client
+Summary: AFS distributed filesystem client support
 Group: System Environment/Daemons
 
 Requires: binutils, openafs = %{version}
@@ -129,7 +129,8 @@ Facilities are provided for access control, authentication, backup and
 administrative management.
 
 This package provides basic client support to mount and manipulate
-AFS.
+AFS. If you want to be able to authenticate to AFS via Kerberos 5, you
+will also want to install openafs-krb5.
 
 %post client
 if [ $1 = 1 ] ; then 
@@ -177,7 +178,7 @@ fi
 
 
 %package server
-Summary: OpenAFS Filesystem Server
+Summary: AFS distributed filesystem servers
 Group: System Environment/Daemons
 
 Requires: openafs = %{version}
@@ -195,7 +196,7 @@ Facilities are provided for access control, authentication, backup and
 administrative management.
 
 This package provides basic server support to host files in an AFS
-Cell.
+Cell, and should be installed on all AFS fileservers and dbservers.
 
 %post server
 %if %{use_systemd}
@@ -234,7 +235,7 @@ fi
 
 
 %package authlibs
-Summary: OpenAFS authentication shared libraries
+Summary: AFS distributed filesystem shared auth libraries
 Group: Applications/System
 
 %description authlibs
@@ -258,7 +259,7 @@ authentication may link against them.
 
 
 %package authlibs-devel
-Summary: OpenAFS shared library development
+Summary: AFS distributed filesystem auth library development
 Group: Development/Libraries
 
 Requires: openafs-authlibs = %{version}-%{release}
@@ -278,7 +279,7 @@ libraries.
 
 
 %package devel
-Summary: OpenAFS Development Libraries and Headers
+Summary: AFS distributed filesystem libraries and headers
 Group: Development/Libraries
 Requires: openafs = %{version}-%{release}
 
@@ -296,7 +297,7 @@ shared libraries.
 
 
 %package docs
-Summary: OpenAFS user and administrator documentation
+Summary: AFS distributed filesystem documentation
 Group: Documentation
 Requires: openafs = %{version}-%{release}
 
@@ -313,7 +314,7 @@ administrators.
 
 
 %package kpasswd
-Summary: OpenAFS KA kpasswd support
+Summary: AFS distributed filesystem kaserver password changing
 Group: Applications/System
 Requires: openafs
 
@@ -324,16 +325,17 @@ Facilities are provided for access control, authentication, backup and
 administrative management.
 
 This package provides the compatibility symlink for kpasswd, in case
-you are using KAserver instead of Krb5.
+you are using the old kaserver instead of the newer Kerberos 5. The kpasswd
+provided by this package is very different from the kpasswd used for Kerberos
+5, so do not use this package unless you are sure you are using kaserver.
 
 %files kpasswd -f %{_sourcedir}/openafs-kpasswd.files
 
 
 %package krb5
-Summary: OpenAFS programs to use with krb5
+Summary: AFS distributed filesystem Kerberos 5 integration
 Group: Applications/System
 Requires: openafs = %{version}
-BuildRequires: krb5-devel
 
 %description krb5
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -349,7 +351,7 @@ krb4 lookalike services.
 
 
 %package compat
-Summary: OpenAFS client compatibility symlinks
+Summary: AFS distributed filesystem client compatibility symlinks
 Group: Applications/System
 Requires: openafs = %{version}, openafs-client = %{version}
 
@@ -368,7 +370,7 @@ programs.
 
 
 %package transarc-client
-Summary: OpenAFS client compatibility symlinks
+Summary: AFS distributed filesystem client compatibility symlinks
 Group: System Environment/Daemons
 Requires: openafs = %{version}, openafs-client = %{version}
 
@@ -380,14 +382,14 @@ administrative management.
 
 This package provides compatibility symlinks for Transarc paths.  It
 is completely optional, and is only necessary to support legacy
-applications and scripts that hard-code the location of AFS client
-programs.
+applications and scripts that hard-code the location of AFS programs,
+configuration files, etc.
 
 %files transarc-client -f %{_sourcedir}/openafs-transarc-client.files
 
 
 %package transarc-server
-Summary: OpenAFS client compatibility symlinks
+Summary: AFS distributed filesystem server compatibility symlinks
 Group: System Environment/Daemons
 Requires: openafs = %{version}, openafs-server = %{version}
 
@@ -399,8 +401,8 @@ administrative management.
 
 This package provides compatibility symlinks for Transarc paths.  It
 is completely optional, and is only necessary to support legacy
-applications and scripts that hard-code the location of AFS client
-programs.
+applications and scripts that hard-code the location of AFS programs,
+configuration files, etc.
 
 %files transarc-server -f %{_sourcedir}/openafs-transarc-server.files
 
