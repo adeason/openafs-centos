@@ -504,6 +504,11 @@ mv $RPM_BUILD_ROOT%{_sbindir}/vos $RPM_BUILD_ROOT%{_bindir}/vos
 # requires root privileges
 mv $RPM_BUILD_ROOT%{_bindir}/asetkey $RPM_BUILD_ROOT%{_sbindir}/asetkey
 
+# Create a symlink 'kapasswd' to 'kpasswd'. This is an alternative name for
+# kpasswd provided in some other older packaging.
+ln -s kpasswd      $RPM_BUILD_ROOT%{_bindir}/kapasswd
+ln -s kpasswd.1.gz $RPM_BUILD_ROOT%{_mandir}/man1/kapasswd.1.gz
+
 # Remove unused stuff
 for f in \
         %{_bindir}/knfs \
