@@ -249,11 +249,9 @@ None of the programs included with OpenAFS currently use these shared
 libraries; however, third-party software that wishes to perform AFS 
 authentication may link against them.
 
-%post authlibs
-/sbin/ldconfig
+%post authlibs -p /sbin/ldconfig
 
-%postun authlibs
-/sbin/ldconfig
+%postun authlibs -p /sbin/ldconfig
 
 %files authlibs -f %{_sourcedir}/openafs-authlibs.files
 
