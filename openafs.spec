@@ -461,12 +461,12 @@ mkdir -p $RPM_BUILD_ROOT%{_var}/lib/openafs/local
 mkdir -p $RPM_BUILD_ROOT%{_var}/cache/openafs
 
 mkdir -p                   $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
-install -m 755 %{SOURCE30} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/openafs
+install -m 644 %{SOURCE30} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/openafs
 
 %if %{use_systemd}
     mkdir -p                   $RPM_BUILD_ROOT%{_unitdir}
-    install -m 755 %{SOURCE41} $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
-    install -m 755 %{SOURCE51} $RPM_BUILD_ROOT%{_unitdir}/openafs-server.service
+    install -m 644 %{SOURCE41} $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
+    install -m 644 %{SOURCE51} $RPM_BUILD_ROOT%{_unitdir}/openafs-server.service
 
     mkdir -p                   $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/modules
     install -m 755 %{SOURCE42} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/modules/openafs-client.modules
