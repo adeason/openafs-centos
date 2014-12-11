@@ -475,6 +475,12 @@ install -m 644 %{SOURCE30} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/openafs
     install -m 755 %{SOURCE50} $RPM_BUILD_ROOT%{initdir}/openafs-server
 %endif
 
+# Mark libraries as executable. rpm's automatic debug-symbol extraction won't
+# process these unless they have their x bit set.
+chmod a+x $RPM_BUILD_ROOT%{_libdir}/*.so \
+          $RPM_BUILD_ROOT%{_libdir}/*.so.* \
+          $RPM_BUILD_ROOT%{_libdir}/*.so.*.* \
+
 # Move PAM modules into correct location
 mkdir -p                              $RPM_BUILD_ROOT%{pamdir}
 mv $RPM_BUILD_ROOT%{_libdir}/pam_afs* $RPM_BUILD_ROOT%{pamdir}
