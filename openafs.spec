@@ -91,6 +91,10 @@ Source69: openafs-compat.files
 Source70: openafs-transarc-client.files
 Source71: openafs-transarc-server.files
 
+Source80: openafs-compat.requires
+Source81: openafs-transarc-client.requires
+Source82: openafs-transarc-server.requires
+
 %description
 The AFS distributed filesystem.  AFS is a distributed filesystem
 allowing cross-platform sharing of files among multiple computers.
@@ -340,6 +344,7 @@ krb4 lookalike services.
 Summary: AFS distributed filesystem client compatibility symlinks
 Group: Applications/System
 Requires: openafs-client = %{version}
+%{expand:%(cat %{_sourcedir}/openafs-compat.requires)}
 
 %description compat
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -359,6 +364,7 @@ programs.
 Summary: AFS distributed filesystem client compatibility symlinks
 Group: System Environment/Daemons
 Requires: openafs-client = %{version}
+%{expand:%(cat %{_sourcedir}/openafs-transarc-client.requires)}
 
 %description transarc-client
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -378,6 +384,7 @@ configuration files, etc.
 Summary: AFS distributed filesystem server compatibility symlinks
 Group: System Environment/Daemons
 Requires: openafs-server = %{version}
+%{expand:%(cat %{_sourcedir}/openafs-transarc-server.requires)}
 
 %description transarc-server
 The AFS distributed filesystem.  AFS is a distributed filesystem
