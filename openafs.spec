@@ -104,7 +104,7 @@ administrative management.
 This package provides common files shared across all the various
 OpenAFS packages but are not necessarily tied to a client or server.
 
-%files -f %{_sourcedir}/openafs.files
+%files -f %{SOURCE60}
 
 
 %package client
@@ -161,7 +161,7 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %endif
 
-%files client -f %{_sourcedir}/openafs-client.files
+%files client -f %{SOURCE61}
 %defattr(-,root,root)
 %if %{use_systemd}
     %{_unitdir}/openafs-client.service
@@ -219,7 +219,7 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %endif
 
-%files server -f %{_sourcedir}/openafs-server.files
+%files server -f %{SOURCE62}
 %defattr(-,root,root)
 %if %{use_systemd}
     %{_unitdir}/openafs-server.service
@@ -247,7 +247,7 @@ authentication may link against them.
 
 %postun authlibs -p /sbin/ldconfig
 
-%files authlibs -f %{_sourcedir}/openafs-authlibs.files
+%files authlibs -f %{SOURCE63}
 
 
 %package authlibs-devel
@@ -267,7 +267,7 @@ This package includes the static versions of libafsrpc and
 libafsauthent, and symlinks required for building against the dynamic 
 libraries.
 
-%files authlibs-devel -f %{_sourcedir}/openafs-authlibs-devel.files
+%files authlibs-devel -f %{SOURCE64}
 
 
 %package devel
@@ -284,7 +284,7 @@ This package provides static development libraries and headers needed
 to compile AFS applications.  Note: AFS currently does not provide
 shared libraries.
 
-%files devel -f %{_sourcedir}/openafs-devel.files
+%files devel -f %{SOURCE65}
 
 
 %package docs
@@ -300,7 +300,7 @@ administrative management.
 This package provides HTML documentation for OpenAFS users and system
 administrators.
 
-%files docs -f %{_sourcedir}/openafs-docs.files
+%files docs -f %{SOURCE66}
 
 
 %package kpasswd
@@ -319,7 +319,7 @@ you are using the old kaserver instead of the newer Kerberos 5. The kpasswd
 provided by this package is very different from the kpasswd used for Kerberos
 5, so do not use this package unless you are sure you are using kaserver.
 
-%files kpasswd -f %{_sourcedir}/openafs-kpasswd.files
+%files kpasswd -f %{SOURCE67}
 
 
 %package krb5
@@ -337,14 +337,14 @@ This package provides compatibility programs so you can use krb5
 to authenticate to AFS services, instead of using AFS's homegrown
 krb4 lookalike services.
 
-%files krb5 -f %{_sourcedir}/openafs-krb5.files
+%files krb5 -f %{SOURCE68}
 
 
 %package compat
 Summary: AFS distributed filesystem client compatibility symlinks
 Group: Applications/System
 Requires: openafs-client = %{version}
-%{expand:%(cat %{_sourcedir}/openafs-compat.requires)}
+%{expand:%(cat %{SOURCE80})}
 
 %description compat
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -357,14 +357,14 @@ completely optional, and is only necessary to support legacy
 applications and scripts that hard-code the location of AFS client
 programs.
 
-%files compat -f %{_sourcedir}/openafs-compat.files
+%files compat -f %{SOURCE69}
 
 
 %package transarc-client
 Summary: AFS distributed filesystem client compatibility symlinks
 Group: System Environment/Daemons
 Requires: openafs-client = %{version}
-%{expand:%(cat %{_sourcedir}/openafs-transarc-client.requires)}
+%{expand:%(cat %{SOURCE81})}
 
 %description transarc-client
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -377,14 +377,14 @@ is completely optional, and is only necessary to support legacy
 applications and scripts that hard-code the location of AFS programs,
 configuration files, etc.
 
-%files transarc-client -f %{_sourcedir}/openafs-transarc-client.files
+%files transarc-client -f %{SOURCE70}
 
 
 %package transarc-server
 Summary: AFS distributed filesystem server compatibility symlinks
 Group: System Environment/Daemons
 Requires: openafs-server = %{version}
-%{expand:%(cat %{_sourcedir}/openafs-transarc-server.requires)}
+%{expand:%(cat %{SOURCE82})}
 
 %description transarc-server
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -397,7 +397,7 @@ is completely optional, and is only necessary to support legacy
 applications and scripts that hard-code the location of AFS programs,
 configuration files, etc.
 
-%files transarc-server -f %{_sourcedir}/openafs-transarc-server.files
+%files transarc-server -f %{SOURCE71}
 
 
 %prep
