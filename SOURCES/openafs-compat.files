@@ -1,2 +1,32 @@
 %defattr(-,root,root)
-%{_prefix}/afsws
+%dir %{_prefix}/afsws/bin
+%dir %{_prefix}/afsws/etc
+%{_prefix}/afsws/bin/afsmonitor
+%{_prefix}/afsws/bin/bos
+%{_prefix}/afsws/bin/fs
+%{_prefix}/afsws/bin/kapasswd
+%{_prefix}/afsws/bin/klog
+%{_prefix}/afsws/bin/klog.krb
+%{_prefix}/afsws/bin/pagsh
+%{_prefix}/afsws/bin/pagsh.krb
+%{_prefix}/afsws/bin/pts
+%{_prefix}/afsws/bin/restorevol
+%{_prefix}/afsws/bin/scout
+%{_prefix}/afsws/bin/sys
+%{_prefix}/afsws/bin/tokens
+%{_prefix}/afsws/bin/tokens.krb
+%{_prefix}/afsws/bin/translate_et
+%{_prefix}/afsws/bin/udebug
+%{_prefix}/afsws/bin/unlog
+%{_prefix}/afsws/bin/xstat_cm_test
+%{_prefix}/afsws/bin/xstat_fs_test
+%{_prefix}/afsws/etc/backup
+%{_prefix}/afsws/etc/butc
+%{_prefix}/afsws/etc/fms
+%{_prefix}/afsws/etc/fstrace
+%{_prefix}/afsws/etc/kas
+%{_prefix}/afsws/etc/read_tape
+%{_prefix}/afsws/etc/rxdebug
+%{_prefix}/afsws/etc/uss
+%{_prefix}/afsws/etc/vos
+%{_prefix}/afsws/etc/vsys
