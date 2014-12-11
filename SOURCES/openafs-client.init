@@ -14,9 +14,7 @@
 
 start() {
         echo -n $"Updating CellServDB: "
-        cat /etc/openafs/CellServDB.local /etc/openafs/CellServDB.dist > \
-               /etc/openafs/CellServDB
-        chmod 644 /etc/openafs/CellServDB
+	/usr/libexec/openafs/openafs-refresh-cellservdb
         echo
 	echo -n $"Starting openafs-client: "
 	if [ -e /var/lock/subsys/openafs-client ] ; then

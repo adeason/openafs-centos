@@ -1,0 +1,29 @@
+#!/bin/sh -e
+# openafs-refresh-cellservdb
+# This combines CellServDB.local and CellServDB.dist into the single
+# CellServDB read by various OpenAFS programs.
+
+CSDB_DIST="/usr/share/openafs/CellServDB.dist"
+CSDB_LOCAL="/etc/openafs/CellServDB.local"
+CSDB_TMP="/etc/openafs/.CellServDB.tmp"
+CSDB_STAMP="/etc/openafs/.CellServDB.stamp"
+CSDB="/etc/openafs/CellServDB"
+
+if [ -e "$CSDB_STAMP" ] ; then
+    if [ "$CSDB" -nt "$CSDB_STAMP" ] ; then
+        # Someone modified the real csdb after the last time we "refreshed" it
+	# from this script. They shouldn't do that.
+	echo "Something modified $CSDB outside of $0." >&2
+	echo "Please do not modify $CSDB directly. Instead edit" >&2
+        echo "$CSDB_LOCAL and run $0." >&2
+    fi
+fi
+
+# Construct our new csdb
+install -p -m 644 "$CSDB_LOCAL" "$CSDB_TMP"
+cat "$CSDB_DIST" >> "$CSDB_TMP"
+
+# 'mv' the new csdb into place, so it is updated atomically
+mv -f "$CSDB_TMP" "$CSDB"
+
+touch "$CSDB_STAMP"

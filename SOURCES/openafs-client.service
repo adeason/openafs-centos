@@ -7,8 +7,7 @@ Before=remote-fs.target
 [Service]
 Type=forking
 EnvironmentFile=/etc/sysconfig/openafs-client
-ExecStartPre=/bin/sed -n 'w/etc/openafs/CellServDB' /etc/openafs/CellServDB.local /etc/openafs/CellServDB.dist
-ExecStartPre=/bin/chmod 0644 /etc/openafs/CellServDB
+ExecStartPre=/usr/libexec/openafs/openafs-refresh-cellservdb
 ExecStartPre=/sbin/modprobe openafs
 ExecStart=/usr/sbin/afsd $AFSD_ARGS
 ExecStop=/bin/umount /afs

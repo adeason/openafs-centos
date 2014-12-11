@@ -69,6 +69,7 @@ Source20: http://dl.central.org/dl/cellservdb/CellServDB.2014-11-17
 
 Source30: openafs.sysconfig
 Source31: openafs.cacheinfo
+Source32: openafs-refresh-cellservdb
 
 Source40: openafs-client.init
 Source41: openafs-client.service
@@ -137,12 +138,7 @@ if [ $1 = 1 ] ; then
 fi
 
 # Generate CellServDB
-[ -f %{_sysconfdir}/openafs/CellServDB.local ] || touch %{_sysconfdir}/openafs/CellServDB.local
-
-( cd %{_sysconfdir}/openafs && \
-  cat CellServDB.local CellServDB.dist > CellServDB.tmp && \
-  chmod 644 CellServDB.tmp && \
-  mv CellServDB.tmp CellServDB )
+%{_libexecdir}/openafs/openafs-refresh-cellservdb
 
 %preun client
 if [ $1 = 0 ] ; then
@@ -453,6 +449,8 @@ mkdir -p $RPM_BUILD_ROOT%{_var}/cache/openafs
 mkdir -p                   $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE30} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/openafs
 
+install -m 755 %{SOURCE32} $RPM_BUILD_ROOT%{_libexecdir}/openafs/openafs-refresh-cellservdb
+
 %if %{use_systemd}
     mkdir -p                   $RPM_BUILD_ROOT%{_unitdir}
     install -m 644 %{SOURCE41} $RPM_BUILD_ROOT%{_unitdir}/openafs-client.service
@@ -490,9 +488,10 @@ install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/$RPM_DOC_DIR/openafs-%{afsvers}
 
 # Populate /etc/openafs
 echo openafs.org >            $RPM_BUILD_ROOT%{_sysconfdir}/openafs/ThisCell
-install -p -m 644 %{SOURCE20} $RPM_BUILD_ROOT%{_sysconfdir}/openafs/CellServDB.dist
 touch                         $RPM_BUILD_ROOT%{_sysconfdir}/openafs/CellServDB.local
 install -p -m 644 %{SOURCE31} $RPM_BUILD_ROOT%{_sysconfdir}/openafs/cacheinfo
+
+install -p -m 644 %{SOURCE20} $RPM_BUILD_ROOT%{_datadir}/openafs/CellServDB.dist
 
 # Move these commands from sbin to bin, since they do not require privileges to
 # do useful stuff.
