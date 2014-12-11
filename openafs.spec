@@ -9,6 +9,11 @@
 #     --enable-checking turned on, which effective builds with -Werror turned
 #     on. You should not use this unless the build fails due to a warning and
 #     you _really_ need it to build and don't care if everything breaks.
+#
+# --define 'krb5config /path/to/krb5-config'
+#     This tells configure to use a specific krb5-config to use when
+#     configuring krb5 support. By default we just find the first krb5-config
+#     in our PATH.
 
 # These two macros are for what version of OpenAFS we're building. afsvers is
 # for what openafs.org thinks the version number is, and pkgvers is for what
@@ -420,6 +425,7 @@ programs.
 %endif
 
 %configure \
+       %{?krb5config:KRB5_CONFIG="%{krb5config}"} \
        afsconfdir="%{_sysconfdir}/openafs/server" \
        viceetcdir="%{_sysconfdir}/openafs" \
        afslogsdir="%{_var}/log/openafs" \
