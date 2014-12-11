@@ -671,3 +671,9 @@ done
 %clean
 [ "$RPM_BUILD_ROOT" != "/" -a "x%{debugspec}" != "x1" ] && \
         rm -rf $RPM_BUILD_ROOT
+
+%changelog
+* Thu Dec 11 2014  Andrew Deason <adeason@sinenomine.net> 1.6.10-1
+- Initial release with new RPM packaging. This packaging is derived from the
+  packaging from upstream OpenAFS, with heavy modifications from Ross Smith,
+  Jonathan Billings, and myself.
