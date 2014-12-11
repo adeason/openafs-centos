@@ -25,7 +25,6 @@
 # for beta/rc releases make pkgrel 0.<tag>
 # for real releases make pkgrel 1 (or more for extra releases)
 %define pkgrel 1
-%define kmod_name openafs
 
 # Define the location of your init.d directory
 %define initdir /etc/rc.d/init.d
@@ -51,15 +50,10 @@ Packager: CentOS Storage SIG <centos-devel@centos.org>
 Group:    Applications/System
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
-BuildRequires: %{?kdepend:%{kdepend}, } pam-devel, ncurses-devel, flex, bison
+BuildRequires: krb5-devel, pam-devel, ncurses-devel, flex, bison
 %if %{use_systemd}
 BuildRequires: systemd-units
 %endif
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 6
-BuildRequires: perl-devel
-%endif
-BuildRequires: perl(ExtUtils::Embed)
-BuildRequires: krb5-devel
 
 ExclusiveArch: %{ix86} x86_64 ia64 s390 s390x sparc64 ppc ppc64
 
@@ -112,8 +106,8 @@ OpenAFS packages but are not necessarily tied to a client or server.
 Summary: AFS distributed filesystem client support
 Group: System Environment/Daemons
 
-Requires: binutils, openafs = %{version}
-Requires: %{name}-kmod >= %{version}
+Requires: openafs
+Requires: openafs-kmod >= %{version}
 %if %{use_systemd}
 Requires: systemd-units
 Requires(post): systemd-units, systemd-sysv
@@ -181,7 +175,7 @@ fi
 Summary: AFS distributed filesystem servers
 Group: System Environment/Daemons
 
-Requires: openafs = %{version}
+Requires: openafs
 %if %{use_systemd}
 Requires: systemd-units
 Requires(post): systemd-units, systemd-sysv
@@ -279,7 +273,6 @@ libraries.
 %package devel
 Summary: AFS distributed filesystem libraries and headers
 Group: Development/Libraries
-Requires: openafs = %{version}-%{release}
 
 %description devel
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -297,7 +290,6 @@ shared libraries.
 %package docs
 Summary: AFS distributed filesystem documentation
 Group: Documentation
-Requires: openafs = %{version}-%{release}
 
 %description docs
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -314,7 +306,7 @@ administrators.
 %package kpasswd
 Summary: AFS distributed filesystem kaserver password changing
 Group: Applications/System
-Requires: openafs
+Requires: openafs = %{version}
 
 %description kpasswd
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -333,7 +325,7 @@ provided by this package is very different from the kpasswd used for Kerberos
 %package krb5
 Summary: AFS distributed filesystem Kerberos 5 integration
 Group: Applications/System
-Requires: openafs = %{version}
+Requires: openafs-client = %{version}
 
 %description krb5
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -351,7 +343,7 @@ krb4 lookalike services.
 %package compat
 Summary: AFS distributed filesystem client compatibility symlinks
 Group: Applications/System
-Requires: openafs = %{version}, openafs-client = %{version}
+Requires: openafs-client = %{version}
 
 %description compat
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -370,7 +362,7 @@ programs.
 %package transarc-client
 Summary: AFS distributed filesystem client compatibility symlinks
 Group: System Environment/Daemons
-Requires: openafs = %{version}, openafs-client = %{version}
+Requires: openafs-client = %{version}
 
 %description transarc-client
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -389,7 +381,7 @@ configuration files, etc.
 %package transarc-server
 Summary: AFS distributed filesystem server compatibility symlinks
 Group: System Environment/Daemons
-Requires: openafs = %{version}, openafs-server = %{version}
+Requires: openafs-server = %{version}
 
 %description transarc-server
 The AFS distributed filesystem.  AFS is a distributed filesystem
