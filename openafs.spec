@@ -496,9 +496,10 @@ install -p -m 644 %{SOURCE20} $RPM_BUILD_ROOT%{_sysconfdir}/openafs/CellServDB.d
 touch                         $RPM_BUILD_ROOT%{_sysconfdir}/openafs/CellServDB.local
 install -p -m 644 %{SOURCE31} $RPM_BUILD_ROOT%{_sysconfdir}/openafs/cacheinfo
 
-# Move vos from sbin to bin, since it does not require privileges to use many
-# useful commands.
+# Move these commands from sbin to bin, since they do not require privileges to
+# do useful stuff.
 mv $RPM_BUILD_ROOT%{_sbindir}/vos $RPM_BUILD_ROOT%{_bindir}/vos
+mv $RPM_BUILD_ROOT%{_sbindir}/rxdebug $RPM_BUILD_ROOT%{_bindir}/rxdebug
 
 # Move asetkey from bin to sbin, since doing anything with this command
 # requires root privileges
