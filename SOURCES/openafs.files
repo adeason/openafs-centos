@@ -1,7 +1,12 @@
 %defattr(-,root,root)
-%dir %{_sysconfdir}/openafs
-%config(noreplace) %{_sysconfdir}/sysconfig/openafs
 %doc %{_docdir}/openafs-%{afsvers}/LICENSE
+%dir %{_sysconfdir}/openafs
+%dir %{_datadir}/openafs
+%config(noreplace) %{_sysconfdir}/sysconfig/openafs
+%config(noreplace) %attr(644,root,root) %{_sysconfdir}/openafs/CellServDB.local
+%ghost %attr(644,root,root) %{_sysconfdir}/openafs/CellServDB
+%ghost %attr(644,root,root) %{_sysconfdir}/openafs/.CellServDB.tmp
+%ghost %attr(644,root,root) %{_sysconfdir}/openafs/.CellServDB.stamp
 %{_bindir}/afsio
 %{_bindir}/afsmonitor
 %{_bindir}/bos
@@ -27,6 +32,8 @@
 %{_sbindir}/kas
 %{_sbindir}/read_tape
 %{_sbindir}/uss
+%{_libexecdir}/openafs/openafs-refresh-cellservdb
+%{_datadir}/openafs/CellServDB.dist
 %{_mandir}/man1/afs.1.gz
 %{_mandir}/man1/afsmonitor.1.gz
 %{_mandir}/man1/cmdebug.1.gz

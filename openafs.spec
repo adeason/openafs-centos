@@ -104,6 +104,10 @@ administrative management.
 This package provides common files shared across all the various
 OpenAFS packages but are not necessarily tied to a client or server.
 
+# Generate CellServDB when we install, in case CellServDB.dist changes or this
+# is the first install.
+%post -p %{_libexecdir}/openafs/openafs-refresh-cellservdb
+
 %files -f %{SOURCE60}
 
 
@@ -138,9 +142,6 @@ if [ $1 = 1 ] ; then
         chkconfig --add openafs-client
     %endif
 fi
-
-# Generate CellServDB
-%{_libexecdir}/openafs/openafs-refresh-cellservdb
 
 %preun client
 if [ $1 = 0 ] ; then

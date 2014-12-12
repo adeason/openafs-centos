@@ -1,10 +1,6 @@
 %defattr(-,root,root)
 %dir /afs
 %dir %{_var}/cache/openafs
-%ghost %attr(644,root,root) %{_sysconfdir}/openafs/CellServDB
-%ghost %attr(644,root,root) %{_sysconfdir}/openafs/.CellServDB.tmp
-%ghost %attr(644,root,root) %{_sysconfdir}/openafs/.CellServDB.stamp
-%config(noreplace) %attr(644,root,root) %{_sysconfdir}/openafs/CellServDB.local
 %config(noreplace) %{_sysconfdir}/openafs/ThisCell
 %config(noreplace) %{_sysconfdir}/openafs/cacheinfo
 %config(noreplace) %{_sysconfdir}/sysconfig/openafs
@@ -16,8 +12,6 @@
 %{_sbindir}/fstrace
 %{_sbindir}/vsys
 %{_datadir}/openafs/C/afszcm.cat
-%{_datadir}/openafs/CellServDB.dist
-%{_libexecdir}/openafs/openafs-refresh-cellservdb
 %{pamdir}/pam_afs.krb.so.1
 %{pamdir}/pam_afs.krb.so
 %{pamdir}/pam_afs.so.1
