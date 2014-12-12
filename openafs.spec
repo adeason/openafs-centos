@@ -112,14 +112,12 @@ Summary: AFS distributed filesystem client support
 Group: System Environment/Daemons
 
 Requires: openafs
-Requires: openafs-kmod >= %{version}
 %if %{use_systemd}
 Requires: systemd-units
 Requires(post): systemd-units, systemd-sysv
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 %endif
-Provides: %{name}-kmod-common = %{version}
 
 %description client
 The AFS distributed filesystem.  AFS is a distributed filesystem
