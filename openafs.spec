@@ -87,13 +87,11 @@ Source65: openafs-devel.files
 Source66: openafs-docs.files
 Source67: openafs-kpasswd.files
 Source68: openafs-krb5.files
-Source69: openafs-compat.files
-Source70: openafs-transarc-client.files
-Source71: openafs-transarc-server.files
+Source69: openafs-client-compat.files
+Source70: openafs-server-compat.files
 
-Source80: openafs-compat.requires
-Source81: openafs-transarc-client.requires
-Source82: openafs-transarc-server.requires
+Source80: openafs-client-compat.requires
+Source81: openafs-server-compat.requires
 
 %description
 The AFS distributed filesystem.  AFS is a distributed filesystem
@@ -339,64 +337,49 @@ krb4 lookalike services.
 %files krb5 -f %{SOURCE68}
 
 
-%package compat
+%package client-compat
 Summary: AFS distributed filesystem client compatibility symlinks
 Group: Applications/System
 Requires: openafs-client = %{version}
 %{expand:%(cat %{SOURCE80})}
 
-%description compat
+Obsoletes: openafs-compat < 1.6.10-1
+Provides: openafs-compat
+
+%description client-compat
 The AFS distributed filesystem.  AFS is a distributed filesystem
 allowing cross-platform sharing of files among multiple computers.
 Facilities are provided for access control, authentication, backup and
 administrative management.
 
-This package provides compatibility symlinks in /usr/afsws.  It is
+This package provides compatibility symlinks in /usr/afsws, as well as
+the "transarc paths" of /usr/vice/etc and /usr/vice/cache. It is
 completely optional, and is only necessary to support legacy
 applications and scripts that hard-code the location of AFS client
-programs.
+programs or configuration.
 
-%files compat -f %{SOURCE69}
-
-
-%package transarc-client
-Summary: AFS distributed filesystem client compatibility symlinks
-Group: System Environment/Daemons
-Requires: openafs-client = %{version}
-%{expand:%(cat %{SOURCE81})}
-
-%description transarc-client
-The AFS distributed filesystem.  AFS is a distributed filesystem
-allowing cross-platform sharing of files among multiple computers.
-Facilities are provided for access control, authentication, backup and
-administrative management.
-
-This package provides compatibility symlinks for Transarc paths.  It
-is completely optional, and is only necessary to support legacy
-applications and scripts that hard-code the location of AFS programs,
-configuration files, etc.
-
-%files transarc-client -f %{SOURCE70}
+%files client-compat -f %{SOURCE69}
 
 
-%package transarc-server
+%package server-compat
 Summary: AFS distributed filesystem server compatibility symlinks
 Group: System Environment/Daemons
 Requires: openafs-server = %{version}
-%{expand:%(cat %{SOURCE82})}
+%{expand:%(cat %{SOURCE81})}
 
-%description transarc-server
+%description server-compat
 The AFS distributed filesystem.  AFS is a distributed filesystem
 allowing cross-platform sharing of files among multiple computers.
 Facilities are provided for access control, authentication, backup and
 administrative management.
 
-This package provides compatibility symlinks for Transarc paths.  It
-is completely optional, and is only necessary to support legacy
-applications and scripts that hard-code the location of AFS programs,
-configuration files, etc.
+This package provides compatibility symlinks for "transarc paths" such
+as /usr/afs/bin, /usr/afs/logs, and other /usr/afs paths.  It is
+completely optional, and is only necessary to support legacy
+applications and scripts that hard-code the location of AFS server
+programs or configuration.
 
-%files transarc-server -f %{SOURCE71}
+%files server-compat -f %{SOURCE70}
 
 
 %prep

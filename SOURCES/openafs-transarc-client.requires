@@ -1,2 +1,0 @@
-Requires: %{_sysconfdir}/openafs
-Requires: %{_var}/cache/openafs

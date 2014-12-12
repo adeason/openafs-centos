@@ -1,4 +1,0 @@
-%defattr(-,root,root)
-%dir %{_prefix}/vice
-%{_prefix}/vice/etc
-%{_prefix}/vice/cache

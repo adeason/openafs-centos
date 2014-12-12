@@ -1,3 +1,5 @@
+Requires: %{_sysconfdir}/openafs
+Requires: %{_var}/cache/openafs
 Requires: %{_bindir}/afsmonitor
 Requires: %{_bindir}/bos
 Requires: %{_bindir}/fs

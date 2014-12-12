@@ -1,6 +1,7 @@
 %defattr(-,root,root)
 %dir %{_prefix}/afsws/bin
 %dir %{_prefix}/afsws/etc
+%dir %{_prefix}/vice
 %{_prefix}/afsws/bin/afsmonitor
 %{_prefix}/afsws/bin/bos
 %{_prefix}/afsws/bin/fs
@@ -30,3 +31,5 @@
 %{_prefix}/afsws/etc/uss
 %{_prefix}/afsws/etc/vos
 %{_prefix}/afsws/etc/vsys
+%{_prefix}/vice/etc
+%{_prefix}/vice/cache
